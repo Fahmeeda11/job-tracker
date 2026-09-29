@@ -27,5 +27,11 @@ export default tseslint.config(
       eqeqeq: ['error', 'smart'],
     },
   },
+  {
+    // CLI scripts write to stdout by design - console IS their user interface,
+    // not a stray debug statement someone forgot to remove.
+    files: ['**/scripts/**/*.ts'],
+    rules: { 'no-console': 'off' },
+  },
   prettier,
 );
