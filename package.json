@@ -25,7 +25,7 @@
     "test:watch": "vitest",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
-    "seed": "npm run seed -w @job-tracker/api",
+    "seed": "npm run seed -w @job-tracker/api --",
     "predev": "npm run build -w @job-tracker/shared && npm run build -w @job-tracker/db",
     "dev:shared": "npm run dev -w @job-tracker/shared",
     "dev:db": "npm run dev -w @job-tracker/db",

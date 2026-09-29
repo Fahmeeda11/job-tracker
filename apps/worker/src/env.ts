@@ -10,6 +10,10 @@
  */
 
 import { z } from 'zod';
+import { loadEnvFile } from './loadEnvFile.js';
+
+// Must run BEFORE the schema below reads process.env.
+const loadedFrom = loadEnvFile();
 
 const envSchema = z
   .object({
@@ -69,7 +73,18 @@ function loadEnv(): WorkerEnv {
     const lines = parsed.error.issues.map(
       (i) => `  - ${i.path.join('.') || '(root)'}: ${i.message}`,
     );
-    console.error(['', 'Invalid worker configuration:', ...lines, ''].join('\n'));
+    console.error(
+      [
+        '',
+        'Invalid worker configuration:',
+        ...lines,
+        '',
+        loadedFrom
+          ? `Loaded from: ${loadedFrom}`
+          : 'No .env file found - relying on the real environment.',
+        '',
+      ].join('\n'),
+    );
     process.exit(1);
   }
   return parsed.data;
