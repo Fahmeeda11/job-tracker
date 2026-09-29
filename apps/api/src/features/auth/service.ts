@@ -22,7 +22,7 @@ import type { PublicUser } from '@job-tracker/shared';
 import { env } from '../../lib/env.js';
 import { childLogger } from '../../lib/logger.js';
 import { unauthorized, ErrorCode } from '../../lib/errors.js';
-import { RefreshToken, User, type UserDoc } from './model.js';
+import { RefreshToken, User, type UserDoc } from '@job-tracker/db';
 
 const log = childLogger('auth');
 

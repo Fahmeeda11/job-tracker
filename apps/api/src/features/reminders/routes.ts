@@ -7,8 +7,7 @@ import { requireAuth, currentUserId } from '../../middleware/auth.js';
 import { notFound } from '../../lib/errors.js';
 import { cancelScheduledReminder, scheduleReminder } from '../../lib/queue.js';
 import { childLogger } from '../../lib/logger.js';
-import { Application } from '../applications/model.js';
-import { buildDedupeKey, Reminder, type ReminderDoc } from './model.js';
+import { Application, buildDedupeKey, Reminder, type ReminderDoc } from '@job-tracker/db';
 
 const log = childLogger('reminders');
 

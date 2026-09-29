@@ -17,7 +17,7 @@ import {
   type UpdateApplicationInput,
 } from '@job-tracker/shared';
 import { conflict, notFound } from '../../lib/errors.js';
-import { Application, type ApplicationDoc } from './model.js';
+import { Application, type ApplicationDoc } from '@job-tracker/db';
 
 export function toDTO(doc: ApplicationDoc): ApplicationDTO {
   return {

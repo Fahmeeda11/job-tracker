@@ -217,7 +217,7 @@ export const reminderSchema = z.object({
   applicationId: objectIdSchema,
   dueAt: dateSchema,
   message: z.string().optional(),
-  status: z.enum(['scheduled', 'sent', 'cancelled', 'failed']),
+  status: z.enum(['scheduled', 'sending', 'sent', 'cancelled', 'failed']),
   sentAt: dateSchema.nullable().optional(),
   createdAt: dateSchema,
 });

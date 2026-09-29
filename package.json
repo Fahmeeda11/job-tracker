@@ -12,11 +12,11 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "concurrently -n shared,api,worker,web -c gray,blue,magenta,green \"npm:dev:shared\" \"npm:dev:api\" \"npm:dev:worker\" \"npm:dev:web\"",
+    "dev": "concurrently -n shared,db,api,worker,web -c gray,gray,blue,magenta,green \"npm:dev:shared\" \"npm:dev:db\" \"npm:dev:api\" \"npm:dev:worker\" \"npm:dev:web\"",
     "dev:api": "npm run dev -w @job-tracker/api",
     "dev:worker": "npm run dev -w @job-tracker/worker",
     "dev:web": "npm run dev -w @job-tracker/web",
-    "build": "npm run build -w @job-tracker/shared && npm run build -w @job-tracker/api && npm run build -w @job-tracker/worker && npm run build -w @job-tracker/web",
+    "build": "npm run build -w @job-tracker/shared && npm run build -w @job-tracker/db && npm run build -w @job-tracker/api && npm run build -w @job-tracker/worker && npm run build -w @job-tracker/web",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -26,8 +26,10 @@
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "seed": "npm run seed -w @job-tracker/api",
-    "predev": "npm run build -w @job-tracker/shared",
-    "dev:shared": "npm run dev -w @job-tracker/shared"
+    "predev": "npm run build -w @job-tracker/shared && npm run build -w @job-tracker/db",
+    "dev:shared": "npm run dev -w @job-tracker/shared",
+    "dev:db": "npm run dev -w @job-tracker/db",
+    "pretest": "npm run build -w @job-tracker/shared && npm run build -w @job-tracker/db"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

@@ -4,7 +4,7 @@ import { validateBody } from '../../middleware/validate.js';
 import { requireAuth, currentUserId } from '../../middleware/auth.js';
 import { unauthorized, conflict, ErrorCode } from '../../lib/errors.js';
 import { env, isProduction } from '../../lib/env.js';
-import { User } from './model.js';
+import { User } from '@job-tracker/db';
 import {
   accessTokenTtlSeconds,
   burnTimingBudget,

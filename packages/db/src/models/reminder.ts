@@ -11,12 +11,18 @@ const reminderSchema = new Schema(
 
     status: {
       type: String,
-      enum: ['scheduled', 'sent', 'cancelled', 'failed'],
+      // 'sending' is a claim state, not a cosmetic one. The worker moves a
+      // reminder scheduled -> sending atomically before it touches SMTP, so a
+      // second worker (or a BullMQ retry) that arrives mid-send finds it already
+      // claimed and does nothing. See apps/worker handlers/sendReminder.ts.
+      enum: ['scheduled', 'sending', 'sent', 'cancelled', 'failed'],
       default: 'scheduled',
       required: true,
     },
 
     sentAt: { type: Date, default: null },
+    /** When the current 'sending' claim was taken, so a stale claim can expire. */
+    claimedAt: { type: Date, default: null },
     failureReason: { type: String, maxlength: 500 },
     attempts: { type: Number, default: 0 },
 

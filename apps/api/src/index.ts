@@ -10,16 +10,22 @@
 import { createApp } from './app.js';
 import { env, isProduction } from './lib/env.js';
 import { logger } from './lib/logger.js';
-import { connectDb, disconnectDb, syncIndexes } from './lib/db.js';
+import { connectDb, disconnectDb, syncIndexes } from '@job-tracker/db';
 import { closeQueue } from './lib/queue.js';
 
 async function main(): Promise<void> {
-  await connectDb();
+  await connectDb(env.MONGO_URI, {
+    onEvent: (event, detail) => {
+      if (event === 'error') logger.error({ err: detail }, 'mongo connection error');
+      else logger.warn({ event }, `mongo ${event}`);
+    },
+  });
+  logger.info('mongo connected');
 
   // In production autoIndex is off, so indexes are built explicitly here where
   // the cost is logged rather than silently paid on first query.
   if (isProduction) {
-    await syncIndexes();
+    await syncIndexes((model, ms) => logger.info({ model, ms }, 'indexes synced'));
   }
 
   const app = createApp();

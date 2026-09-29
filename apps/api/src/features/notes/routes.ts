@@ -5,8 +5,7 @@ import { createNoteSchema, objectIdSchema, type Note as NoteDTO } from '@job-tra
 import { validateBody } from '../../middleware/validate.js';
 import { requireAuth, currentUserId } from '../../middleware/auth.js';
 import { notFound } from '../../lib/errors.js';
-import { Application } from '../applications/model.js';
-import { Note, type NoteDoc } from './model.js';
+import { Application, Note, type NoteDoc } from '@job-tracker/db';
 
 /** mergeParams so :applicationId from the parent mount is visible here. */
 export const notesRouter = Router({ mergeParams: true });

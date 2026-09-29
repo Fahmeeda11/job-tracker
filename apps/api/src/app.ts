@@ -12,7 +12,7 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import cors from 'cors';
 import { pinoHttp } from 'pino-http';
-import mongoose from 'mongoose';
+import { connectionState, isConnected } from '@job-tracker/db';
 import { env, isTest } from './lib/env.js';
 import { logger } from './lib/logger.js';
 import { errorHandler, notFoundHandler } from './middleware/error.js';
@@ -66,11 +66,10 @@ export function createApp(): Express {
    * traffic to a process that will 500 on every database call.
    */
   app.get('/health', (_req, res) => {
-    const dbState = mongoose.connection.readyState;
-    const healthy = dbState === 1;
+    const healthy = isConnected();
     res.status(healthy ? 200 : 503).json({
       status: healthy ? 'ok' : 'degraded',
-      db: ['disconnected', 'connected', 'connecting', 'disconnecting'][dbState] ?? 'unknown',
+      db: connectionState(),
       uptime: Math.floor(process.uptime()),
     });
   });

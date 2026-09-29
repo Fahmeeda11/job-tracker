@@ -3,7 +3,7 @@ import supertest from 'supertest';
 import type { Express } from 'express';
 import { createApp } from '../../app.js';
 import { clearTestDb, extractCookie, signupTestUser, startTestDb, stopTestDb } from '../../test/helpers.js';
-import { RefreshToken } from './model.js';
+import { RefreshToken } from '@job-tracker/db';
 
 let app: Express;
 
