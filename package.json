@@ -1,0 +1,43 @@
+{
+  "name": "job-tracker",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Kanban job-application tracker with background reminder jobs. MERN + TypeScript.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n shared,api,worker,web -c gray,blue,magenta,green \"npm:dev:shared\" \"npm:dev:api\" \"npm:dev:worker\" \"npm:dev:web\"",
+    "dev:api": "npm run dev -w @job-tracker/api",
+    "dev:worker": "npm run dev -w @job-tracker/worker",
+    "dev:web": "npm run dev -w @job-tracker/web",
+    "build": "npm run build -w @job-tracker/shared && npm run build -w @job-tracker/api && npm run build -w @job-tracker/worker && npm run build -w @job-tracker/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "seed": "npm run seed -w @job-tracker/api",
+    "predev": "npm run build -w @job-tracker/shared",
+    "dev:shared": "npm run dev -w @job-tracker/shared"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/node": "^22.10.2",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1",
+    "vitest": "^2.1.8"
+  }
+}
